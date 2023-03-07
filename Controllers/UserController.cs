@@ -8,7 +8,7 @@ using api__auth.Models;
 namespace api__auth.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("usuario")]
 public class UserController : ControllerBase
 {
     private readonly DatabaseContext _context;
@@ -22,21 +22,22 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CadastrarUsuario([FromBody] UserInfoDto userDto)
+    [Route("cadastrar")]
+    public IActionResult RegisterUser([FromBody] UserRequestDto userDto)
     {
-        UserInfo user = _mapper.Map<UserInfo>(userDto);
+        User user = _mapper.Map<User>(userDto);
         _context.Add(user);
         _context.SaveChanges();
         return CreatedAtAction(nameof(GetUserById), new {user.Id},user);
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public IActionResult GetUserById(int id)
     {
-        UserInfo user = _context.UserInfos.FirstOrDefault(value => value.Id == id);
+        User user = _context.UserInfos.FirstOrDefault(value => value.Id == id);
         if(user != null)
         {
-            UserInfoCreatedDto userCreated = _mapper.Map<UserInfoCreatedDto>(user);
+            UserResponseDto userCreated = _mapper.Map<UserResponseDto>(user);
             return Ok(userCreated);
         }
         return NotFound();

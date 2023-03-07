@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\api--auth.bundle.scp.css",
-      "PackagePath": "staticwebassets\\api--auth.bundle.scp.css"
-    },
-    {
       "Id": "C:\\Users\\agv_2\\DEV\\api--auth\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

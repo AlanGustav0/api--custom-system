@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "d3D7QBhpEQze50xlHLL4P8VKfjp9lZs33yHglAF8A80=",
+  "Hash": "nLASFRiX92tuAvUmUw0kgyNxW4DKR7uK2BSpXckQS/o=",
   "Source": "api--auth",
   "BasePath": "_content/api--auth",
   "Mode": "Default",
@@ -16,40 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\Debug\\net6.0\\scopedcss\\bundle\\api--auth.styles.css",
-      "SourceId": "api--auth",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
-      "BasePath": "_content/api--auth",
-      "RelativePath": "api--auth.styles.css",
-      "AssetKind": "All",
-      "AssetMode": "CurrentProject",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ApplicationBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\Debug\\net6.0\\scopedcss\\bundle\\api--auth.styles.css"
-    },
-    {
-      "Identity": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\api--auth.bundle.scp.css",
-      "SourceId": "api--auth",
-      "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
-      "BasePath": "_content/api--auth",
-      "RelativePath": "api--auth.bundle.scp.css",
-      "AssetKind": "All",
-      "AssetMode": "Reference",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ProjectBundle",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\api--auth.bundle.scp.css"
-    },
     {
       "Identity": "C:\\Users\\agv_2\\DEV\\api--auth\\wwwroot\\css\\site.css",
       "SourceId": "api--auth",

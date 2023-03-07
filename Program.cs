@@ -1,12 +1,37 @@
+using api__auth.Config;
 using api__auth.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.IdentityModel.Tokens;
 using MySql.EntityFrameworkCore.Extensions;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Configuração de CORS caso necessário
+builder.Services.AddCors();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var key = Encoding.ASCII.GetBytes(Settings.Secret);
+builder.Services.AddAuthentication(auth =>
+{
+    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(auth =>
+    {
+        auth.RequireHttpsMetadata = false;
+        auth.SaveToken = true;
+        auth.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -24,16 +49,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+//Configuração de CORS caso necessário
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseRouting();
 
+
+
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+
 
 app.Run();
 
