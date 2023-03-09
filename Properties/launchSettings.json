@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "api__auth": {
+    "api__custom_system": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

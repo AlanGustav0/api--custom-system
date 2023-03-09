@@ -1,4 +1,4 @@
-﻿namespace api__auth.Config
+﻿namespace api__custom_system.Config
 {
     public class Settings
     {

@@ -19,8 +19,8 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Usa porta dinâmica do Heroku
-#CMD ASPNETCORE_URLS="http://*:$PORT" dotnet api--auth.dll
+#CMD ASPNETCORE_URLS="http://*:$PORT" dotnet api--custom-system.dll
 
 
 #Default
-ENTRYPOINT ["dotnet", "api--auth.dll"]
+ENTRYPOINT ["dotnet", "api--custom-system.dll"]

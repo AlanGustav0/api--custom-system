@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace api__auth.Repository.Dto
+namespace api__custom_system.Repository.Dto
 {
     public class UserRequestDto
     {

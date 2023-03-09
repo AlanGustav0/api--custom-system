@@ -8294,11 +8294,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\agv_2\\DEV\\api--auth\\api--auth.csproj",
-      "projectName": "api--auth",
-      "projectPath": "C:\\Users\\agv_2\\DEV\\api--auth\\api--auth.csproj",
+      "projectUniqueName": "C:\\Users\\agv_2\\DEV\\api--custom-system\\api--custom-system.csproj",
+      "projectName": "api--custom-system",
+      "projectPath": "C:\\Users\\agv_2\\DEV\\api--custom-system\\api--custom-system.csproj",
       "packagesPath": "C:\\Users\\agv_2\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\agv_2\\DEV\\api--auth\\obj\\",
+      "outputPath": "C:\\Users\\agv_2\\DEV\\api--custom-system\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\agv_2\\AppData\\Roaming\\NuGet\\NuGet.Config",

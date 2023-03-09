@@ -1,6 +1,6 @@
-﻿using api__auth.Repository.Dto;
+﻿using api__custom_system.Repository.Dto;
 
-namespace api__auth.Models
+namespace api__custom_system.Models
 {
     public class TokenResponse
     {

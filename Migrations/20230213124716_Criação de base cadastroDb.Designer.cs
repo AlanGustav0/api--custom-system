@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using api__auth.Repository;
+using api__custom_system.Repository;
 
 #nullable disable
 
-namespace api__auth.Migrations
+namespace api__custom_system.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
     [Migration("20230213124716_Criação de base cadastroDb")]
@@ -20,7 +20,7 @@ namespace api__auth.Migrations
                 .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("api__auth.Models.UserInfo", b =>
+            modelBuilder.Entity("api__custom_system.Models.UserInfo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "D8zWraA/eZUC0JSqdhQYqMTw9nXkuwTnjSG6G8ca0+/WWw94m51ufed0sDRVr2Y+z3WK1imDlHWdzW/HxuPxFg==",
+  "dgSpecHash": "3rVZX7v8Wc6LXWLsA1OHuMtEW4wdXA7RKR6Ta/kPhNR7390UJZjkKPm6kfpEQ2q4OWQXLGOFjRsEVqNLqC5itA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\agv_2\\DEV\\api--auth\\api--auth.csproj",
+  "projectFilePath": "C:\\Users\\agv_2\\DEV\\api--custom-system\\api--custom-system.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\agv_2\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\agv_2\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

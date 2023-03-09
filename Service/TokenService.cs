@@ -1,12 +1,12 @@
-﻿using api__auth.Config;
-using api__auth.Models;
-using api__auth.Repository.Dto;
+﻿using api__custom_system.Config;
+using api__custom_system.Models;
+using api__custom_system.Repository.Dto;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace api__auth.Service
+namespace api__custom_system.Service
 {
     public class TokenService
     {

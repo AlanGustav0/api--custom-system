@@ -1,12 +1,12 @@
-﻿using api__auth.Models;
-using api__auth.Repository;
-using api__auth.Repository.Dto;
-using api__auth.Service;
+﻿using api__custom_system.Models;
+using api__custom_system.Repository;
+using api__custom_system.Repository.Dto;
+using api__custom_system.Service;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api__auth.Controllers
+namespace api__custom_system.Controllers
 {
     [ApiController]
     [Route("login")]

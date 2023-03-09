@@ -1,7 +1,7 @@
-﻿using api__auth.Models;
+﻿using api__custom_system.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace api__auth.Repository
+namespace api__custom_system.Repository
 {
     public class DatabaseContext: DbContext
     {

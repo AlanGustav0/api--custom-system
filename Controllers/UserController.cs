@@ -1,11 +1,11 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using api__auth.Repository;
+using api__custom_system.Repository;
 using AutoMapper;
-using api__auth.Repository.Dto;
-using api__auth.Models;
+using api__custom_system.Repository.Dto;
+using api__custom_system.Models;
 
-namespace api__auth.Controllers;
+namespace api__custom_system.Controllers;
 
 [ApiController]
 [Route("usuario")]

@@ -3,7 +3,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace api__auth.Migrations
+namespace api__custom_system.Migrations
 {
     public partial class CriaçãodebasecadastroDb : Migration
     {

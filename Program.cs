@@ -1,5 +1,5 @@
-using api__auth.Config;
-using api__auth.Repository;
+using api__custom_system.Config;
+using api__custom_system.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -9,7 +9,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Configuração de CORS caso necessário
+//Configuraï¿½ï¿½o de CORS caso necessï¿½rio
 builder.Services.AddCors();
 
 // Add services to the container.
@@ -51,7 +51,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseStaticFiles();
-//Configuração de CORS caso necessário
+//Configuraï¿½ï¿½o de CORS caso necessï¿½rio
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseRouting();
