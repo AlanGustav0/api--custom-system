@@ -1,6 +1,6 @@
 # API Custom System
 
-Este projeto foi desenvolvido com [.NET Core](https://github.com/angular/angular-cli) versão 6.0.
+Este projeto foi desenvolvido com [.NET Core](https://github.com/angular/angular-cli) versï¿½o 6.0.
 
 
 ## Ferramentas, conceitos e tecnologias utilizadas no projeto.
@@ -10,6 +10,7 @@ Este projeto foi desenvolvido com [.NET Core](https://github.com/angular/angular
 * Autentication JWT Token
 * Migrations
 * AutoMapper
-* Padrão REST API
+* Padrï¿½o REST API
 * Dependency Injection
 * Arquitetura MVC
+* Testes UnitÃ¡rios XUnit
