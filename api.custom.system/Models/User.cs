@@ -1,5 +1,6 @@
 ﻿using api.custom.system.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace api__custom_system.Models
 {

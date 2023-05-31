@@ -26,7 +26,7 @@ namespace api.custom.system.Service
 
         public async Task<UserProfile?> GetProfileById(int id)
         {
-            UserProfile? userProfile = _context.UserProfile?.FirstOrDefault(image => image.Id == id);
+            UserProfile? userProfile = _context.UserProfile?.FirstOrDefault(profile => profile.Id == id);
 
             if (userProfile == null)
             {

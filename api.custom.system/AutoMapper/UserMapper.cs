@@ -13,6 +13,7 @@ namespace api__custom_system.AutoMapper
             CreateMap<UserRequestDto, User>();
             CreateMap<User, UserResponseDto>();
             CreateMap<UserProfileRequestDto, UserProfile>();
+            CreateMap<UserProfile, UserProfileResponseDto>();
         }
     }
 }

@@ -79,14 +79,15 @@ public class UserController : ControllerBase
 
 
 
-    [HttpGet("obter/imagem/perfil")]
-    public IActionResult GetImageProfileById(int id)
+    [HttpGet("obter/perfil")]
+    public IActionResult GetProfileById(int id)
     {
-        var image = _userService.GetProfileById(id).Result;
+        var profile = _userService.GetProfileById(id).Result;
 
-        if (image != null)
+        if (profile != null)
         {
-            return Ok(image.ImageProfile);
+            UserProfileResponseDto userProfile = _mapper.Map<UserProfileResponseDto>(profile);
+            return Ok(userProfile);
         }
 
         return BadRequest();
