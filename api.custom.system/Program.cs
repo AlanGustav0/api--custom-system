@@ -1,11 +1,15 @@
+using api.custom.system.Service;
+using api.custom.system.Service.Interfaces;
 using api__custom_system.Config;
 using api__custom_system.Controllers;
 using api__custom_system.Repository;
 using api__custom_system.Service;
 using api__custom_system.Service.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using MySql.EntityFrameworkCore.Extensions;
 using System.Text;
@@ -13,6 +17,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 //Configura��o de CORS caso necess�rio
 builder.Services.AddCors();
@@ -56,8 +61,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+var provider = new FileExtensionContentTypeProvider();
 
-app.UseStaticFiles();
+provider.Mappings[".image"] = "image/png";
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    DefaultContentType = "image/png",
+    ContentTypeProvider = provider
+});
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath,"images")),
+    RequestPath = "/uploads"
+});
 //Configura��o de CORS caso necess�rio
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 

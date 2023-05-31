@@ -21,7 +21,7 @@ namespace api__custom_system.Service
                     new Claim(ClaimTypes.Role,user.Role.ToString()),
                     new Claim(ClaimTypes.Anonymous,user.ProfileStyle.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddHours(4),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature)
             };

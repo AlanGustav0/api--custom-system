@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using api.custom.system.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace api__custom_system.Models
 {
@@ -10,5 +11,7 @@ namespace api__custom_system.Models
         public string Password { get; set; }
         public string Role { get; set; } = "USER";
         public string ProfileStyle { get; set; } = "DEFAULT";
+        public virtual UserProfile UserProfile { get; set; }
+        public int UserProfileId { get; set; }
     }
 }
