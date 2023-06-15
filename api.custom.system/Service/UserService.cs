@@ -1,54 +1,69 @@
 ﻿using api.custom.system.Models;
+using api.custom.system.Repository.Dto;
 using api.custom.system.Service.Interfaces;
 using api__custom_system.Models;
 using api__custom_system.Repository;
+using api__custom_system.Repository.Dto;
+using AutoMapper;
 
 namespace api.custom.system.Service
 {
     public class UserService : IUserService
     {
-        private IWebHostEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly DatabaseContext _context;
+        private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UserService(IWebHostEnvironment environment, DatabaseContext context)
+        public UserService(IWebHostEnvironment environment, DatabaseContext context,IMapper mapper, IConfiguration configuration)
         {
             _environment = environment;
             _context = context;
+            _mapper = mapper;
+            _configuration= configuration;
 
         }
 
 
-        public async Task<User> GetUserById(int id)
+        public User? GetUserById(int id)
         {
-            return _context.UserInfos.FirstOrDefault(value => value.Id == id);
-
-        }
-
-        public async Task<UserProfile?> GetProfileById(int id)
-        {
-            UserProfile? userProfile = _context.UserProfile?.FirstOrDefault(profile => profile.Id == id);
-
-            if (userProfile == null)
+            User? user = _context.UserInfos?.FirstOrDefault(value => value.Id == id);
+            if(user != null)
             {
-                return null;
+                return user;
+            }
+            return null;
+
+        }
+
+
+        public void SaveImageProfile(ICollection<IFormFile> files,int id)
+        {
+ 
+            string directory = "images";
+            var guid = Guid.NewGuid(); 
+            string path = $"{_environment.WebRootPath}//{directory}//{guid}";
+            var fileName = files.First().FileName;
+            string file = Path.Combine($"{path}//{fileName}");
+
+            User? user = GetUserById(id);
+            
+            if (!string.IsNullOrEmpty(user.ImageProfile))
+            {
+                string imageProfile = $"{_environment.WebRootPath}/{user.ImageProfile}";
+                File.Delete(imageProfile);
             }
 
-            return userProfile;
-        }
-
-        public async Task SaveImageProfile(ICollection<IFormFile> files,int id)
-        {
-       
-            string directory = "images";
-            string path = $"{_environment.WebRootPath}\\{directory}\\{id}";
-            var fileName = files.First().FileName;
-            string file = Path.Combine($"{path}\\{fileName}");
             Directory.CreateDirectory(path);
             File.Create(file).Dispose();
 
-
-            UserProfile? userProfile = GetProfileById(id).Result;
-            userProfile.ImageProfile = file;
+            string hostFile = $"/{directory}/{guid}/{fileName}";
+            
+            if(user != null)
+            {
+                user.ImageProfile = hostFile;
+            }
+            
             _context.SaveChanges();
 
 
@@ -58,7 +73,7 @@ namespace api.custom.system.Service
             {
                 using (var stream = new MemoryStream())
                 {
-                    await item.CopyToAsync(stream);
+                    item.CopyToAsync(stream);
                     data.Add(stream.ToArray());
                 }
             }
@@ -67,49 +82,88 @@ namespace api.custom.system.Service
             {
                 File.WriteAllBytes(file, data);
             });
-
-            await Task.CompletedTask;
             
         }
 
-        public Task CreateUser(User user)
+        public User CreateUser(UserRequestDto userDto)
         {
+            User user = _mapper.Map<User>(userDto);
+
+            var profile = CreateUserProfile(user.UserName).Result;
+            user.UserProfile = profile;
+
             _context.Add(user);
             _context.SaveChanges();
 
-            return Task.CompletedTask;
+            return user;
         }
 
-        public async Task<UserProfile> CreateUserProfile(User user)
+        public UserProfileResponseDto UpdateUserProfile(UserProfileRequestDto userProfileDto)
         {
-            UserProfile userProfile = new()
+            var userProfile = _mapper.Map<UserProfile>(userProfileDto);
+
+            User? user = GetUserById(userProfileDto.Id);
+            if(user != null)
             {
-                UserName = user.UserName,
-            };
+                if (!string.IsNullOrEmpty(userProfileDto.UserName))
+                {
+                    user.UserProfile.UserName = userProfile.UserName;
+                }
+                if (!string.IsNullOrEmpty(userProfileDto.Email))
+                {
+                    user.UserProfile.Email = userProfile.Email;
+                }
+
+                if (!string.IsNullOrEmpty(userProfileDto.Endereco))
+                {
+                    user.UserProfile.Endereco = userProfile.Endereco;
+                }
+                if (!string.IsNullOrEmpty(userProfile.Numero))
+                {
+                    user.UserProfile.Numero = userProfile.Numero;
+                }
+                if (!string.IsNullOrEmpty(userProfile.Numero))
+                {
+                    user.UserProfile.Numero = userProfile.Numero;
+                }
+                if (!string.IsNullOrEmpty(userProfile.Cep))
+                {
+                    user.UserProfile.Cep = userProfile.Cep;
+                }
+                if (!string.IsNullOrEmpty(userProfile.Cidade))
+                {
+                    user.UserProfile.Cidade = userProfile.Cidade;
+                }
+                if (userProfile.Estado != null)
+                {
+                    user.UserProfile.Estado = userProfile.Estado;
+                }
+            }
+            
+            _context.SaveChanges();
+            var userAddressResponse = _mapper.Map<UserProfileResponseDto>(user?.UserProfile);
+
+            return userAddressResponse;
+        }
+
+        public UserProfile GetUserProfile(int userAdressId)
+        {
+            UserProfile userAdress = _context.UserProfile.FirstOrDefault(addressId => addressId.Id == userAdressId);
+            return userAdress;
+        }
+
+        private Task<UserProfile?> CreateUserProfile(string name)
+        {
+            UserProfile userProfile = new();
+            userProfile.UserName= name;
             _context.Add(userProfile);
             _context.SaveChanges();
-            return _context.UserProfile.OrderBy(value => value.Id).LastOrDefault();
+
+            UserProfile? profile = _context.UserProfile?.OrderBy(orderId => orderId.Id).LastOrDefault();
+
+            return Task.FromResult(profile);
         }
 
-        public Task UpdateUserProfile(UserProfile userProfile)
-        {
-
-            UserProfile? profile = GetProfileById(userProfile.Id).Result;
-            if (!string.IsNullOrEmpty(userProfile.UserName)) 
-            {
-                profile.UserName = userProfile.UserName;
-            }
-            if(!string.IsNullOrEmpty(userProfile.UserEmail))
-            {
-                profile.UserEmail = userProfile.UserEmail;
-            }
-            if(!string.IsNullOrEmpty(userProfile.Address))
-            {
-                profile.Address = userProfile.Address;
-            }
-            _context.SaveChanges();
-
-            return Task.CompletedTask;
-        }
+        
     }
 }

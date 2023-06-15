@@ -4,8 +4,8 @@ using AutoMapper;
 using api__custom_system.Repository.Dto;
 using api__custom_system.Models;
 using api.custom.system.Service.Interfaces;
-using api.custom.system.Models;
 using api.custom.system.Repository.Dto;
+using api.custom.system.Models;
 
 namespace api__custom_system.Controllers;
 
@@ -27,33 +27,25 @@ public class UserController : ControllerBase
     [Route("cadastrar")]
     public IActionResult CreateUser([FromBody] UserRequestDto userDto)
     {
-        User user = _mapper.Map<User>(userDto);
+ 
+        var user = _userService.CreateUser(userDto);
 
-        var userProfileId = _userService.CreateUserProfile(user).Result;
-        user.UserProfileId = userProfileId.Id;
-        _userService.CreateUser(user);
-        
-        return CreatedAtAction(nameof(GetUserById), new {user.Id},user);
+        return CreatedAtAction(nameof(GetUserById), new { user.Id }, user);
+      
     }
 
-    [HttpPost("cadastrar/imagem/perfil")]
+    [HttpPost("cadastrar/imagem")]
     public IActionResult SaveImageProfileById([FromForm] ICollection<IFormFile> file, int id)
     {
-        var uploadImage = _userService.SaveImageProfile(file, id);
-
-        if (uploadImage != null)
-        {
-            return Ok();
-        }
-
-        return BadRequest();
+        _userService.SaveImageProfile(file, id);
+        return Ok();
 
     }
 
-    [HttpGet("{id}")]
-    public IActionResult GetUserById(int id)
+    [HttpGet]
+    public IActionResult GetUserById([FromQuery] int id)
     {
-        User user = _userService.GetUserById(id).Result;
+        User user = _userService.GetUserById(id);
         if(user != null)
         {
             UserResponseDto userCreated = _mapper.Map<UserResponseDto>(user);
@@ -62,37 +54,30 @@ public class UserController : ControllerBase
         return NotFound();
     }
 
+    [HttpGet("perfil")]
+    public IActionResult GetUserProfileById([FromQuery] int id)
+    {
+        UserProfile userProfile = _userService.GetUserProfile(id);
+        if (userProfile != null)
+        {
+            UserProfileResponseDto userProfileCreated = _mapper.Map<UserProfileResponseDto>(userProfile);
+            return Ok(userProfileCreated);
+        }
+        return NotFound();
+    }
+
     [HttpPut("atualizar/perfil")]
-    public IActionResult UpdateProfile([FromBody] UserProfileRequestDto userProfile)
+    public IActionResult UpdateUserProfile([FromBody] UserProfileRequestDto userProfileDto)
     {
-        var profile = _mapper.Map<UserProfile>(userProfile);
-        _userService.UpdateUserProfile(profile);
+        
+        var profile = _userService.UpdateUserProfile(userProfileDto);
 
         if (profile != null)
         {
-            return Ok(profile);
+            return Ok();
         }
 
         return BadRequest();
 
     }
-
-
-
-    [HttpGet("obter/perfil")]
-    public IActionResult GetProfileById(int id)
-    {
-        var profile = _userService.GetProfileById(id).Result;
-
-        if (profile != null)
-        {
-            UserProfileResponseDto userProfile = _mapper.Map<UserProfileResponseDto>(profile);
-            return Ok(userProfile);
-        }
-
-        return BadRequest();
-
-    }
-
-
 }

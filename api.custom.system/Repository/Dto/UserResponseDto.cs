@@ -7,6 +7,8 @@
         public string Role { get; set; }
         public string ProfileStyle { get; set; }
 
+        public string ImageProfile { get; set; }
+
         public int UserProfileId { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace api__custom_system.Models
         public string Password { get; set; }
         public string Role { get; set; } = "USER";
         public string ProfileStyle { get; set; } = "DEFAULT";
+        public string? ImageProfile { get; set; }
         public virtual UserProfile UserProfile { get; set; }
         public int UserProfileId { get; set; }
     }

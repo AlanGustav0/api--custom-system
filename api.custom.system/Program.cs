@@ -63,13 +63,15 @@ if (app.Environment.IsDevelopment())
 
 var provider = new FileExtensionContentTypeProvider();
 
-provider.Mappings[".image"] = "image/png";
+provider.Mappings[".image"] = "image/jpg";
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    DefaultContentType = "image/png",
+    DefaultContentType = "image/jpg",
     ContentTypeProvider = provider
 });
+
+
 app.UseDirectoryBrowser(new DirectoryBrowserOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath,"images")),
