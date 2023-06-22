@@ -37,16 +37,16 @@ namespace api.custom.system.Service
         }
 
 
-        public void SaveImageProfile(ICollection<IFormFile> files,int id)
+        public void SaveImageProfile(ProfileData profileData)
         {
  
             string directory = "images";
             var guid = Guid.NewGuid(); 
             string path = $"{_environment.WebRootPath}//{directory}//{guid}";
-            var fileName = files.First().FileName;
+            var fileName = profileData?.File?.FileName;
             string file = Path.Combine($"{path}//{fileName}");
 
-            User? user = GetUserById(id);
+            User? user = GetUserById(profileData.Id);
             
             if (!string.IsNullOrEmpty(user.ImageProfile))
             {
@@ -69,14 +69,12 @@ namespace api.custom.system.Service
 
             List<byte[]> data = new();
 
-            foreach (var item in files)
-            {
+         
                 using (var stream = new MemoryStream())
                 {
-                    item.CopyToAsync(stream);
+                    profileData?.File?.CopyToAsync(stream);
                     data.Add(stream.ToArray());
                 }
-            }
            
             data.ForEach(data =>
             {

@@ -8,7 +8,7 @@ namespace api.custom.system.Service.Interfaces
 {
     public interface IUserService
     {
-        public void SaveImageProfile(ICollection<IFormFile> file, int id);
+        public void SaveImageProfile(ProfileData profileData);
 
         public User? GetUserById(int id);
 

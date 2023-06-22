@@ -35,9 +35,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("cadastrar/imagem")]
-    public IActionResult SaveImageProfileById([FromForm] ICollection<IFormFile> file, int id)
+    public IActionResult SaveImageProfileById([FromForm] ProfileData profileData)
     {
-        _userService.SaveImageProfile(file, id);
+        _userService.SaveImageProfile(profileData);
         return Ok();
 
     }
