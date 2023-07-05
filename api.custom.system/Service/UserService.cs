@@ -1,10 +1,12 @@
-﻿using api.custom.system.Models;
+﻿using System.Text.RegularExpressions;
+using api.custom.system.Models;
 using api.custom.system.Repository.Dto;
 using api.custom.system.Service.Interfaces;
 using api__custom_system.Models;
 using api__custom_system.Repository;
 using api__custom_system.Repository.Dto;
 using AutoMapper;
+using Google.Protobuf.WellKnownTypes;
 
 namespace api.custom.system.Service
 {
@@ -20,7 +22,7 @@ namespace api.custom.system.Service
             _environment = environment;
             _context = context;
             _mapper = mapper;
-            _configuration= configuration;
+            _configuration = configuration;
 
         }
 
@@ -39,6 +41,15 @@ namespace api.custom.system.Service
 
         public void SaveImageProfile(ProfileData profileData)
         {
+
+            User? user = GetUserById(profileData.Id);
+
+            if (!string.IsNullOrEmpty(user.ImageProfile))
+            {
+                string imageProfile = $"{_environment.WebRootPath}/{user.ImageProfile}";
+                string imagePath = Regex.Split(imageProfile,"(\\/\\w+\\.jpg)")[0];
+                Directory.Delete(imagePath, true);
+            }
  
             string directory = "images";
             var guid = Guid.NewGuid(); 
@@ -46,13 +57,8 @@ namespace api.custom.system.Service
             var fileName = profileData?.File?.FileName;
             string file = Path.Combine($"{path}//{fileName}");
 
-            User? user = GetUserById(profileData.Id);
             
-            if (!string.IsNullOrEmpty(user.ImageProfile))
-            {
-                string imageProfile = $"{_environment.WebRootPath}/{user.ImageProfile}";
-                File.Delete(imageProfile);
-            }
+            
 
             Directory.CreateDirectory(path);
             File.Create(file).Dispose();
@@ -80,6 +86,8 @@ namespace api.custom.system.Service
             {
                 File.WriteAllBytes(file, data);
             });
+
+            
             
         }
 
@@ -87,7 +95,8 @@ namespace api.custom.system.Service
         {
             User user = _mapper.Map<User>(userDto);
 
-            var profile = CreateUserProfile(user.UserName).Result;
+            UserProfile? profile = CreateUserProfile(user.UserName).Result;
+            user.UserName = userDto.NickName;
             user.UserProfile = profile;
 
             _context.Add(user);
@@ -98,9 +107,10 @@ namespace api.custom.system.Service
 
         public UserProfileResponseDto UpdateUserProfile(UserProfileRequestDto userProfileDto)
         {
-            var userProfile = _mapper.Map<UserProfile>(userProfileDto);
+            UserProfile? userProfile = _mapper.Map<UserProfile>(userProfileDto);
 
             User? user = GetUserById(userProfileDto.Id);
+            
             if(user != null)
             {
                 if (!string.IsNullOrEmpty(userProfileDto.UserName))
@@ -111,7 +121,6 @@ namespace api.custom.system.Service
                 {
                     user.UserProfile.Email = userProfile.Email;
                 }
-
                 if (!string.IsNullOrEmpty(userProfileDto.Endereco))
                 {
                     user.UserProfile.Endereco = userProfile.Endereco;
@@ -139,21 +148,23 @@ namespace api.custom.system.Service
             }
             
             _context.SaveChanges();
-            var userAddressResponse = _mapper.Map<UserProfileResponseDto>(user?.UserProfile);
+            var userProfileResponse = _mapper.Map<UserProfileResponseDto>(user?.UserProfile);
 
-            return userAddressResponse;
+            return userProfileResponse;
         }
 
-        public UserProfile GetUserProfile(int userAdressId)
+        public UserProfile GetUserProfile(int userProfileId)
         {
-            UserProfile userAdress = _context.UserProfile.FirstOrDefault(addressId => addressId.Id == userAdressId);
-            return userAdress;
+            UserProfile userProfile = _context.UserProfile.FirstOrDefault(profileId => profileId.Id == userProfileId);
+            return userProfile;
         }
 
         private Task<UserProfile?> CreateUserProfile(string name)
         {
-            UserProfile userProfile = new();
-            userProfile.UserName= name;
+            UserProfile userProfile = new()
+            {
+                UserName = name
+            };
             _context.Add(userProfile);
             _context.SaveChanges();
 

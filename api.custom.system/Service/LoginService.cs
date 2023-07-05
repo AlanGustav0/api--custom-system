@@ -19,7 +19,7 @@ namespace api__custom_system.Service
         }
         public UserResponseDto AuthUser(string userName, string password)
         {
-            User user = _context.UserInfos.FirstOrDefault(value => value.UserName == userName && value.Password == password);
+            User? user = _context.UserInfos?.FirstOrDefault(value => value.UserName == userName && value.Password == password);
 
             UserResponseDto userResponse = _mapper.Map<UserResponseDto>(user);
 
