@@ -7,7 +7,8 @@ namespace api__custom_system.Repository
 {
     public class DatabaseContext: DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext>opt): base(opt) { }
+        public DatabaseContext(DbContextOptions<DatabaseContext> opt) : base(opt) { }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
