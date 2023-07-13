@@ -1,35 +1,33 @@
 ﻿using System.Text.RegularExpressions;
 using api.custom.system.Models;
 using api.custom.system.Repository.Dto;
+using api.custom.system.Repository.Interfaces;
 using api.custom.system.Service.Interfaces;
 using api__custom_system.Models;
 using api__custom_system.Repository;
 using api__custom_system.Repository.Dto;
 using AutoMapper;
-using Google.Protobuf.WellKnownTypes;
 
 namespace api.custom.system.Service
 {
     public class UserService : IUserService
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(IWebHostEnvironment environment, DatabaseContext context,IMapper mapper, IConfiguration configuration)
+        public UserService(IWebHostEnvironment environment, DatabaseContext context,IMapper mapper, IUserRepository userRepository)
         {
             _environment = environment;
-            _context = context;
             _mapper = mapper;
-            _configuration = configuration;
+            _userRepository = userRepository;
 
         }
 
 
-        public User? GetUserById(int id)
+        public async Task<User?> GetUserById(int id)
         {
-            User? user = _context.UserInfos?.FirstOrDefault(value => value.Id == id);
+            User? user = await _userRepository.GetUserById(id);
             if(user != null)
             {
                 return user;
@@ -39,10 +37,10 @@ namespace api.custom.system.Service
         }
 
 
-        public void SaveImageProfile(ProfileData profileData)
+        public async Task SaveImageProfile(ProfileData profileData)
         {
 
-            User? user = GetUserById(profileData.Id);
+            User? user = await GetUserById(profileData.Id);
 
             if (!string.IsNullOrEmpty(user.ImageProfile))
             {
@@ -69,8 +67,8 @@ namespace api.custom.system.Service
             {
                 user.ImageProfile = hostFile;
             }
-            
-            _context.SaveChanges();
+
+             await _userRepository.SaveImageProfile();
 
 
             List<byte[]> data = new();
@@ -86,12 +84,10 @@ namespace api.custom.system.Service
             {
                 File.WriteAllBytes(file, data);
             });
-
-            
             
         }
 
-        public User CreateUser(UserRequestDto userDto)
+        public async Task<User> CreateUser(UserRequestDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
 
@@ -99,17 +95,18 @@ namespace api.custom.system.Service
             user.UserName = userDto.NickName;
             user.UserProfile = profile;
 
-            _context.Add(user);
-            _context.SaveChanges();
+            await _userRepository.CreateUser(user);
 
             return user;
+
+            
         }
 
-        public UserProfileResponseDto UpdateUserProfile(UserProfileRequestDto userProfileDto)
+        public async Task<UserProfileResponseDto> UpdateUserProfile(UserProfileRequestDto userProfileDto)
         {
             UserProfile? userProfile = _mapper.Map<UserProfile>(userProfileDto);
 
-            User? user = GetUserById(userProfileDto.Id);
+            User? user = await GetUserById(userProfileDto.Id);
             
             if(user != null)
             {
@@ -146,31 +143,29 @@ namespace api.custom.system.Service
                     user.UserProfile.Estado = userProfile.Estado;
                 }
             }
-            
-            _context.SaveChanges();
+
+            await _userRepository.UpdateUserProfile();
             var userProfileResponse = _mapper.Map<UserProfileResponseDto>(user?.UserProfile);
 
             return userProfileResponse;
         }
 
-        public UserProfile GetUserProfile(int userProfileId)
+        public async Task<UserProfile> GetUserProfile(int userProfileId)
         {
-            UserProfile userProfile = _context.UserProfile.FirstOrDefault(profileId => profileId.Id == userProfileId);
+            UserProfile? userProfile = await _userRepository.GetUserProfile(userProfileId);
+
             return userProfile;
         }
 
-        private Task<UserProfile?> CreateUserProfile(string name)
+        private async Task<UserProfile?> CreateUserProfile(string name)
         {
             UserProfile userProfile = new()
             {
                 UserName = name
             };
-            _context.Add(userProfile);
-            _context.SaveChanges();
+            UserProfile? profile = await _userRepository.CreateUserProfile(userProfile);
 
-            UserProfile? profile = _context.UserProfile?.OrderBy(orderId => orderId.Id).LastOrDefault();
-
-            return Task.FromResult(profile);
+            return profile;
         }
 
         

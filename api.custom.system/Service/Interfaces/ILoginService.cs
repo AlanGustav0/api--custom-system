@@ -4,6 +4,6 @@ namespace api__custom_system.Service.Interfaces
 {
     public interface ILoginService
     {
-        public UserResponseDto AuthUser(string userName, string password);
+        public Task<UserResponseDto>? AuthUser(string userName, string password);
     }
 }

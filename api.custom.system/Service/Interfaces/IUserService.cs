@@ -7,15 +7,15 @@ namespace api.custom.system.Service.Interfaces
 {
     public interface IUserService
     {
-        public void SaveImageProfile(ProfileData profileData);
+        public Task SaveImageProfile(ProfileData profileData);
 
-        public User? GetUserById(int id);
+        public Task<User?> GetUserById(int id);
 
-        public User CreateUser(UserRequestDto user);
+        public Task<User> CreateUser(UserRequestDto user);
 
-        public UserProfileResponseDto UpdateUserProfile(UserProfileRequestDto userProfileDto);
+        public Task<UserProfileResponseDto> UpdateUserProfile(UserProfileRequestDto userProfileDto);
 
-        public UserProfile GetUserProfile(int userAdressId);
+        public Task<UserProfile> GetUserProfile(int userAdressId);
 
     }
 }

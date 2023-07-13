@@ -1,3 +1,5 @@
+using api.custom.system.Repository;
+using api.custom.system.Repository.Interfaces;
 using api.custom.system.Service;
 using api.custom.system.Service.Interfaces;
 using api__custom_system.Config;
@@ -16,8 +18,10 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddTransient<ILoginService, LoginService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //Configura��o de CORS caso necess�rio
 builder.Services.AddCors();

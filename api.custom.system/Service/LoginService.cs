@@ -1,5 +1,5 @@
-﻿using api__custom_system.Models;
-using api__custom_system.Repository;
+﻿using api.custom.system.Repository.Interfaces;
+using api__custom_system.Models;
 using api__custom_system.Repository.Dto;
 using api__custom_system.Service.Interfaces;
 using AutoMapper;
@@ -8,18 +8,18 @@ namespace api__custom_system.Service
 {
     public class LoginService : ILoginService
     {
-        private readonly DatabaseContext _context;
+        private readonly ILoginRepository _loginRepository;
         private readonly IMapper _mapper;
 
 
-        public LoginService(DatabaseContext context,IMapper mapper)
+        public LoginService(ILoginRepository loginRepository, IMapper mapper)
         {
-            _context = context;
+            _loginRepository = loginRepository;
             _mapper = mapper;
         }
-        public UserResponseDto AuthUser(string userName, string password)
+        public async Task<UserResponseDto> AuthUser(string userName, string password)
         {
-            User? user = _context.UserInfos?.FirstOrDefault(value => value.UserName == userName && value.Password == password);
+            User? user = await _loginRepository.AuthUser(userName, password);
 
             UserResponseDto userResponse = _mapper.Map<UserResponseDto>(user);
 

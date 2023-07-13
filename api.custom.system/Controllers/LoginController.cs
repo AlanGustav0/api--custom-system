@@ -18,12 +18,12 @@ namespace api__custom_system.Controllers
             _loginService = loginService;
         }
         [HttpPost]
-        public ActionResult<TokenResponse> Authentication([FromBody] UserRequestDto userDto)
+        public async Task<ActionResult<TokenResponse>> Authentication([FromBody] UserRequestDto userDto)
         {
 
             try
             {
-                var user = _loginService.AuthUser(userDto.UserName, userDto.Password);
+                var user = await _loginService.AuthUser(userDto.UserName, userDto.Password);
                 var token = TokenService.GenerateToken(user);
 
                 return new TokenResponse

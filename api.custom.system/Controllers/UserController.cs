@@ -25,59 +25,104 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("cadastrar")]
-    public IActionResult CreateUser([FromBody] UserRequestDto userDto)
+    public async Task<IActionResult> CreateUser([FromBody] UserRequestDto userDto)
     {
- 
-        var user = _userService.CreateUser(userDto);
+        try
+        {
+            var user = await _userService.CreateUser(userDto);
 
-        return CreatedAtAction(nameof(GetUserById), new { user.Id }, user);
+            return CreatedAtAction(nameof(GetUserById), new { user.Id }, user);
+        }
+        catch
+        (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+        
       
     }
 
     [HttpPost("cadastrar/imagem")]
     public IActionResult SaveImageProfileById([FromForm] ProfileData profileData)
     {
-        _userService.SaveImageProfile(profileData);
+        try
+        {
+            _userService.SaveImageProfile(profileData);
+        }catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+
         return Ok();
 
     }
 
     [HttpGet]
-    public IActionResult GetUserById([FromQuery] int id)
+    public async Task<IActionResult> GetUserById([FromQuery] int id)
     {
-        User user = _userService.GetUserById(id);
-        if(user != null)
+        try
         {
-            UserResponseDto userCreated = _mapper.Map<UserResponseDto>(user);
-            return Ok(userCreated);
+            User? user = await _userService.GetUserById(id);
+            if (user != null)
+            {
+                UserResponseDto userCreated = _mapper.Map<UserResponseDto>(user);
+                return Ok(userCreated);
+            }
+            return NotFound();
+
         }
-        return NotFound();
+        catch(Exception ex) 
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+        
     }
 
     [HttpGet("perfil")]
-    public IActionResult GetUserProfileById([FromQuery] int id)
+    public async Task<IActionResult> GetUserProfileById([FromQuery] int id)
     {
-        UserProfile userProfile = _userService.GetUserProfile(id);
-        if (userProfile != null)
+        try
         {
-            UserProfileResponseDto userProfileCreated = _mapper.Map<UserProfileResponseDto>(userProfile);
-            return Ok(userProfileCreated);
+            UserProfile userProfile = await _userService.GetUserProfile(id);
+            if (userProfile != null)
+            {
+                UserProfileResponseDto userProfileCreated = _mapper.Map<UserProfileResponseDto>(userProfile);
+                return Ok(userProfileCreated);
+            }
+            return NotFound();
         }
-        return NotFound();
+        catch(Exception ex) 
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+        
     }
 
     [HttpPut("atualizar/perfil")]
-    public IActionResult UpdateUserProfile([FromBody] UserProfileRequestDto userProfileDto)
+    public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileRequestDto userProfileDto)
     {
-        
-        var profile = _userService.UpdateUserProfile(userProfileDto);
-
-        if (profile != null)
+        try
         {
-            return Ok();
-        }
+            var profile = await _userService.UpdateUserProfile(userProfileDto);
 
-        return BadRequest();
+            if (profile != null)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+        catch
+        (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+        
 
     }
 }
