@@ -1,10 +1,7 @@
 ﻿using api.custom.system.Models;
-using api.custom.system.Repository.Dto;
 using api.custom.system.Repository.Interfaces;
 using api__custom_system.Models;
 using api__custom_system.Repository;
-using api__custom_system.Repository.Dto;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.custom.system.Repository
@@ -23,16 +20,15 @@ namespace api.custom.system.Repository
             _context.SaveChanges();
         }
 
-        public async Task<UserProfile> CreateUserProfile(string nome)
+        public async Task<UserProfile?> CreateUserProfile(UserProfile userProfile)
         {
-            _context.Add(nome);
+            _context.Add(userProfile);
             _context.SaveChanges();
 
-            UserProfile userProfile = await _context.UserProfile?.OrderBy(orderId => orderId.Id).LastOrDefaultAsync();
+            UserProfile? profile = await _context.UserProfile?.OrderBy(orderId => orderId.Id).LastOrDefaultAsync();
 
-            return userProfile;
+            return profile;
         }
-
 
         public async Task<User?> GetUserById(int id)
         {
@@ -45,15 +41,12 @@ namespace api.custom.system.Repository
         {
             UserProfile? userProfile = await _context.UserProfile.FirstOrDefaultAsync(profileId => profileId.Id == userProfileId);
 
-
-
             return userProfile;
         }
 
         public async Task SaveImageProfile()
         {
-            var response = await _context.SaveChangesAsync();
-
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateUserProfile()

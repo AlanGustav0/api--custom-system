@@ -44,11 +44,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("cadastrar/imagem")]
-    public IActionResult SaveImageProfileById([FromForm] ProfileData profileData)
+    public async Task<IActionResult> SaveImageProfileById([FromForm] ProfileData profileData)
     {
         try
         {
-            _userService.SaveImageProfile(profileData);
+            await _userService.SaveImageProfile(profileData);
         }catch(Exception ex)
         {
             Console.WriteLine(ex.Message);
