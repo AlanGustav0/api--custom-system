@@ -23,8 +23,6 @@ namespace api.custom.system.Service
             _userRepository = userRepository;
 
         }
-
-
         public async Task<User?> GetUserById(int id)
         {
             User? user = await _userRepository.GetUserById(id);
@@ -35,8 +33,6 @@ namespace api.custom.system.Service
             return null;
 
         }
-
-
         public async Task SaveImageProfile(ProfileData profileData)
         {
 
@@ -55,9 +51,7 @@ namespace api.custom.system.Service
             var fileName = profileData?.File?.FileName;
             string file = Path.Combine($"{path}//{fileName}");
 
-            
-            
-
+        
             Directory.CreateDirectory(path);
             File.Create(file).Dispose();
 
@@ -69,7 +63,6 @@ namespace api.custom.system.Service
             }
 
              await _userRepository.SaveImageProfile();
-
 
             List<byte[]> data = new();
 
@@ -98,12 +91,11 @@ namespace api.custom.system.Service
             await _userRepository.CreateUser(user);
 
             return user;
-
-            
         }
 
         public async Task<UserProfileResponseDto> UpdateUserProfile(UserProfileRequestDto userProfileDto)
         {
+
             UserProfile? userProfile = _mapper.Map<UserProfile>(userProfileDto);
 
             User? user = await GetUserById(userProfileDto.Id);
@@ -168,6 +160,5 @@ namespace api.custom.system.Service
             return profile;
         }
 
-        
     }
 }

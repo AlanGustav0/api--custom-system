@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api__custom_system.Controllers
 {
     [ApiController]
-    [Route("login")]
+    [Route("api/v1/login")]
     public class LoginController : ControllerBase
     {
         private ILoginService _loginService;

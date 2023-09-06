@@ -3,7 +3,6 @@ using api.custom.system.Repository.Interfaces;
 using api.custom.system.Service;
 using api.custom.system.Service.Interfaces;
 using api__custom_system.Config;
-using api__custom_system.Controllers;
 using api__custom_system.Repository;
 using api__custom_system.Service;
 using api__custom_system.Service.Interfaces;
@@ -13,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MySql.EntityFrameworkCore.Extensions;
 using System.Text;
 
@@ -49,7 +49,10 @@ builder.Services.AddAuthentication(auth =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>{
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "APICustomSystem", Description = "Sistema Personalizado", Version = "v1" });
+
+});
 builder.Services.AddDbContext<DatabaseContext>(opts => opts.UseLazyLoadingProxies().UseMySQL(builder.Configuration.GetConnectionString("CadastroConnection")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

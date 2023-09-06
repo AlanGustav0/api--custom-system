@@ -10,7 +10,7 @@ using api.custom.system.Models;
 namespace api__custom_system.Controllers;
 
 [ApiController]
-[Route("usuario")]
+[Route("api/v1/usuario")]
 public class UserController : ControllerBase
 {
     private readonly IMapper _mapper;
